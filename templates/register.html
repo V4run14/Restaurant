@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    <link href="{{ url_for('static', filename='/Signin.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+{% endblock %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block body %}
+<div class="text-center container">
+    <form class="form-signin" action="{{ url_for('register1') }}" method="post">
+        <h1 class="h3 mb-3 font-weight-normal">REGISTER</h1>
+
+        <label for="fName" class="sr-only">First Name</label>
+        <input type="text" id="fName" class="form-control" name="fName" placeholder="First Name" required autofocus/>
+
+        <label for="lName" class="sr-only">Last Name</label>
+        <input type="text" id="lName" class="form-control" name="lName" placeholder="Last Name" required autofocus/>
+
+        <label for="address" class="sr-only">Address</label>
+        <input type="text" id="add" class="form-control" name="address" placeholder="Address" required autofocus/>
+
+        <div class="form-group">
+        <label for="areaCode" class="sr-only">Address</label>
+        <select class="form-control" style="height: 47px;">
+            <option value = "Java">Area Code</option>
+            <option value = "Discrete Mathematics">Discrete Mathematics</option>
+            <option value = "Chemistry">Chemistry</option>
+         </select>
+        </div>
+
+        <br>
+
+        <label for="mob" class="sr-only">Mobile No.</label>
+        <input type="number" id="mob" class="form-control" name="mob" placeholder="Mobile No." required autofocus>
+
+        <label for="age" class="sr-only">Age</label>
+        <input type="number" id="age" class="form-control" name="age" placeholder="Age" required autofocus>
+
+        <br>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="email" class="form-control" name="email" placeholder="Email address" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="pwd" class="form-control" name="pwd" placeholder="Password" required>
+
+        <label for="confirmPassword" class="sr-only">Confirm Password</label>
+        <input type="password" id="cnf" class="form-control" name="cnf" placeholder="Confirm Password" required>
+
+        <button class="btn btn-lg btn-primary btn-block" name="signup" type="submit">Sign Up</button>
+
+    </form>
+</div>
+{% endblock %}

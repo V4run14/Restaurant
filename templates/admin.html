@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+{% endblock %}
+
+{% block title %}
+    Admin page
+{% endblock %}
+
+{% block body %}
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+    <button class="w3-bar-item w3-button w3-large"
+    onclick="w3_close()">Close &times;</button>
+    <a href="/menuCard" class="w3-bar-item w3-button">MENU CARD</a>
+    <a href="#" class="w3-bar-item w3-button">ADD RES BRANCH</a>
+    <a href="#" class="w3-bar-item w3-button">ORDER INFO</a>
+  </div>
+  
+  <div id="main">
+  
+  <div class="w3-black">
+    <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 40%;">ADMIN PAGE</span>    
+  </div>
+  
+  
+  </div>
+
+  
+  <script>
+  function w3_open() {
+    document.getElementById("main").style.marginLeft = "25%";
+    document.getElementById("mySidebar").style.width = "25%";
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'inline-block';
+    document.getElementById("text").style.marginLeft="40%";
+  }
+  function w3_close() {
+    document.getElementById("main").style.marginLeft = "0%";
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
+  }
+  </script>
+{% endblock %}

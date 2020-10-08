@@ -12,34 +12,28 @@ app = Flask(__name__)
 admin_pwd="team_KV"
 menus = [
     {
-        'item_id':1
-        'item_name':'Rice'
-        'description':'white rice'
-        'price':30
-        'rating':4.0
+        'item_id':1,
+        'item_name':'Rice',
+        'description':'white rice',
+        'price':30,
+        'rating':4.0,
         'total':12
     },
     {
-        'item_id':2
-        'item_name':'Roti'
-        'description':'Roti'
-        'price':15
-        'rating':4.0
+        'item_id':2,
+        'item_name':'Roti',
+        'description':'Roti',
+        'price':15,
+        'rating':4.0,
         'total':10
     }
 ]
 
-orders = [
-    {
-        'order_id'
-    }
-]
 
 
 @app.route("/")
 def index():
     
-    #return redirect("/register", code=307)
     return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
@@ -64,8 +58,7 @@ def login():
 
 @app.route("/register", methods=["POST"])
 def register():
-    #return render_template("register.html")
-    return "you have been redirected"
+    return render_template("register.html")
 
 @app.route("/register1", methods=["POST"])
 def register1():
@@ -84,11 +77,9 @@ def register1():
     else:
         return redirect("/register", code=307)
 
-@app.route("/admin", methods=["POST"])
+@app.route("/admin", methods=["GET","POST"])
 def admin():
-
-    #return render_template("admin.html")
-    return "This is the admin view"
+    return render_template("admin.html")
 
 @app.route("/manager", methods=["POST"])
 def manager():

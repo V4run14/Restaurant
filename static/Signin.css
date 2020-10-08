@@ -22,10 +22,13 @@ body {
 .form-signin .checkbox {
   font-weight: 400;
 }
+.form-group{
+  margin: 0;
+}
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
-  height: auto;
+  height: auto !important;
   padding: 10px;
   font-size: 16px;
 }
