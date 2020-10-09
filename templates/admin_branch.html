@@ -24,51 +24,27 @@
                 <th scope="col">Options</th>
               </tr>
             </thead>
-            <tbody>  
-              <tr>
-                <th scope="row">Delhi</th>
-                <td style="width: 18vw;">
+            <tbody>
+                {% for branch in branches %}  
+                <tr>
+                  <th scope="row">{{branch.branch_name}}</th>
+                  <td style="width: 18vw;">
                     <table class="text-center ml-5">
+                        {% for code in area_codes %}
+                        {% if code.branch_id==branch.branch_id %}
                         <tr>
-                            <td>Vasant Kunj</td>
+                            <td>{{code.area_code}}</td>
                         </tr>
-                        <tr>
-                            <td>Chandni Chowk</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Hauz khas Village
-                            </td>
-                        </tr>
+                        {% endif %}
+                        {% endfor %}
                     </table>
                 </td>
-                <td>HEllo</td>
-                <td>Hello</td>
-                <td>Hello</td>
-                <td><form action="{{url_for('admin_branch_edit')}}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="give branch id" value="give branch id here">DELETE</button></form></td>
-              </tr>
-              <tr>
-                <th scope="row">Delhi</th>
-                <td style="width: 18vw;">
-                    <table class="text-center ml-5">
-                        <tr>
-                            <td>Vasant Kunj</td>
-                        </tr>
-                        <tr>
-                            <td>Chandni Chowk</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Hauz khas Village
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td>HEllo</td>
-                <td>Hello</td>
-                <td>Hello</td>
-                <td><form action="{{url_for('admin_branch_edit')}}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="give branch id here" value="give branch id here">DELETE</button></form></td>
-              </tr>
+                  <td>{{branch.address}}</td>
+                  <td>{{branch.manager_name}}</td>
+                  <td>{{branch.manager_ph}}</td>
+                  <td><form action="{{ url_for('admin_branch_edit') }}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="branch_id" value={{branch.branch_id}}>DELETE</button></form></td>
+                </tr>
+                {% endfor %}  
             </tbody>
           </table>
     </div>    

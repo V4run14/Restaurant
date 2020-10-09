@@ -1,6 +1,6 @@
 import os
 import re
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -28,7 +28,12 @@ def login():
         else:
             return redirect("/")
     elif x:
-        return redirect("/manager", code=307)
+        managers = db.execute("SELECT manager_id, pwd FROM manager WHERE email=:email",
+            {"email": email}).fetchone()
+        if pwd == managers.pwd:
+            return redirect(url_for('manager_prof', manager_id=managers.manager_id), code=307)    
+        else:
+            return redirect("/")
     elif y:
         return redirect("/delivery", code=307)
     else:
@@ -37,7 +42,7 @@ def login():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id) ").fetchall()
+    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id)").fetchall()
     return render_template("register.html", areas=areas)
 
 @app.route("/register1", methods=["POST"])
@@ -57,7 +62,7 @@ def register1():
     else:
         return redirect("/register", code=307)
 
-@app.route("/admin/menu", methods=["POST"])
+@app.route("/admin/menu", methods=["GET","POST"])
 def admin_menu():
     if request.form.get("item_name"):
         item_name = request.form.get("item_name")
@@ -78,29 +83,71 @@ def admin_menu_edit():
         db.commit()
         return redirect("/admin/menu", code=307)
     else: 
-        flag=1
         return render_template("admin_menu_additem.html")
 
 
 @app.route("/admin/branch", methods=["GET","POST"])
 def admin_branch():
-    return render_template("admin_branch.html")
+    if request.form.get("branch_name"):
+        branch_name = request.form.get("branch_name"); address = request.form.get("address")
+        ac1 = request.form.get("area_code1"); ac2 = request.form.get("area_code2"); ac3 = request.form.get("area_code3")
+        manager_name = request.form.get("manager_name"); manager_ph = request.form.get("manager_ph"); age = request.form.get("age")
+        email = request.form.get("email"); pwd = request.form.get("pwd")
+        db.execute("INSERT INTO branches (branch_name, address) VALUES (:branch_name, :address)",
+            {"branch_name": branch_name, "address": address})
+        db.execute("INSERT INTO manager (manager_name, manager_ph, email, pwd, age) VALUES (:manager_name, :manager_ph, :email, :pwd, :age)",
+            {"manager_name": manager_name, "manager_ph": manager_ph, "email": email, "pwd": pwd, "age": age})
+        db.commit()
+        br = db.execute("SELECT branch_id FROM branches WHERE branch_name= :branch_name",
+            {"branch_name": branch_name}).fetchone()
+        b = br.branch_id
+        db.execute("INSERT INTO area_codes (branch_id, area_code) VALUES (:branch_id, :area_code)",
+            {"branch_id": b, "area_code": ac1})
+        db.execute("INSERT INTO area_codes (branch_id, area_code) VALUES (:branch_id, :area_code)",
+            {"branch_id": b, "area_code": ac2})
+        db.execute("INSERT INTO area_codes (branch_id, area_code) VALUES (:branch_id, :area_code)",
+            {"branch_id": b, "area_code": ac3})
+        db.commit()
+    branches = db.execute("SELECT A.branch_id, branch_name, address, manager_name, manager_ph FROM branches A JOIN manager B ON (A.branch_id=B.branch_id)").fetchall()
+    area_codes = db.execute("SELECT * FROM area_codes").fetchall()
+    return render_template("admin_branch.html",branches=branches, area_codes=area_codes)
 
 @app.route("/admin/branch/edit", methods=["GET","POST"])
 def admin_branch_edit():
     if request.method == "POST":
-        # take item id and process the query for deletion 
-        return render_template("admin_branch.html")
+        branch_id = request.form.get("branch_id")
+        db.execute("DELETE FROM branches WHERE branch_id = :branch_id",
+            {"branch_id": branch_id})
+        db.execute("DELETE FROM manager WHERE branch_id = :branch_id",
+            {"branch_id": branch_id})
+        db.execute("DELETE FROM delivery WHERE manager_id = :branch_id",
+            {"branch_id": branch_id})
+        db.execute("DELETE FROM area_codes WHERE branch_id = :branch_id",
+            {"branch_id": branch_id})
+        db.commit()
+        return redirect("/admin/branch", code=307)
     else: 
         return render_template("admin_branch_addbranch.html")
-
 
 @app.route("/admin/order", methods=["GET","POST"])
 def admin_order():
     return render_template("admin.html")
 
-@app.route("/manager", methods=["POST"])
-def manager():
+
+
+@app.route("/manager/<int:manager_id>/profile", methods=["GET","POST"])
+def manager_prof(manager_id):
+    print(manager_id)
+    return "This is the manager view"
+
+@app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
+def manager_deliv(manager_id):
+    print(manager_id)
+    return "This is the manager view"
+
+@app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
+def manager_order(manager_id):
+    print(manager_id)
     return "This is the manager view"
 
 @app.route("/cust", methods=["POST"])
