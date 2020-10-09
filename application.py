@@ -6,34 +6,13 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
 
-#engine = create_engine(os.getenv("DATABASE_URL"))
-#db = scoped_session(sessionmaker(bind=engine))
+engine = create_engine(os.getenv("DATABASE_URL"))
+db = scoped_session(sessionmaker(bind=engine))
 
 admin_pwd="team_KV"
-menus = [
-    {
-        'item_id':1,
-        'item_name':'Rice',
-        'description':'white rice',
-        'price':30,
-        'rating':4.0,
-        'total':12
-    },
-    {
-        'item_id':2,
-        'item_name':'Roti',
-        'description':'Roti',
-        'price':15,
-        'rating':4.0,
-        'total':10
-    }
-]
-
-
 
 @app.route("/")
 def index():
-    
     return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
@@ -58,7 +37,8 @@ def login():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
-    return render_template("register.html")
+    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id) ").fetchall()
+    return render_template("register.html", areas=areas)
 
 @app.route("/register1", methods=["POST"])
 def register1():
@@ -68,7 +48,7 @@ def register1():
     address = request.form.get("address")
     ar_cod = request.form.get("area_code")
     age = request.form.get("age")
-    email = request.form.get("email")
+    email = request.form.get("email") 
     pwd = request.form.get("pwd")
     cnf = request.form.get("cnf")
     if pwd==cnf:
@@ -79,15 +59,28 @@ def register1():
 
 @app.route("/admin/menu", methods=["POST"])
 def admin_menu():
+    if request.form.get("item_name"):
+        item_name = request.form.get("item_name")
+        description = request.form.get("description")
+        price = request.form.get("price")
+        db.execute("INSERT INTO menu (item_name, description, price, rating, votes) VALUES (:item_name, :description, :price, 0.0, 0)",
+            {"item_name": item_name, "description": description, "price": price})
+        db.commit()
+    menus = db.execute("SELECT * FROM menu").fetchall()
     return render_template("admin_menu.html",menus=menus)
 
 @app.route("/admin/menu/edit", methods=["GET","POST"])
 def admin_menu_edit():
     if request.method == "POST":
-        # take item id and process the query for deletion 
-        return render_template("admin_menu.html",menus=menus)
+        item_id = request.form.get("item_id")
+        db.execute("DELETE FROM menu WHERE item_id = :item_id",
+            {"item_id": item_id})
+        db.commit()
+        return redirect("/admin/menu", code=307)
     else: 
+        flag=1
         return render_template("admin_menu_additem.html")
+
 
 @app.route("/admin/branch", methods=["GET","POST"])
 def admin_branch():

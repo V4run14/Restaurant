@@ -31,7 +31,7 @@
                 <td>{{menu.description}}</td>
                 <td>{{menu.price}}</td>
                 <td>{{menu.rating}}</td>
-                <td><form action="{{ url_for('admin_menu_edit') }}" method="POST"><button type="submit"  class="btn btn-outline-light"  name={{menu.item_id}} value={{menu.item_id}}>DELETE</button></form></td>
+                <td><form action="{{ url_for('admin_menu_edit') }}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="item_id" value={{menu.item_id}}>DELETE</button></form></td>
               </tr>
               {% endfor %}
             </tbody>
