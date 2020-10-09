@@ -91,7 +91,16 @@ def admin_menu_edit():
 
 @app.route("/admin/branch", methods=["GET","POST"])
 def admin_branch():
-    return render_template("admin.html")
+    return render_template("admin_branch.html")
+
+@app.route("/admin/branch/edit", methods=["GET","POST"])
+def admin_branch_edit():
+    if request.method == "POST":
+        # take item id and process the query for deletion 
+        return render_template("admin_branch.html")
+    else: 
+        return render_template("admin_branch_addbranch.html")
+
 
 @app.route("/admin/order", methods=["GET","POST"])
 def admin_order():

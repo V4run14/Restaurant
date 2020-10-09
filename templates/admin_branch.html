@@ -1,0 +1,76 @@
+{% extends "admin.html" %}
+
+{% block head %}
+    <link href="{{ url_for('static', filename='/Additem.css') }}" rel="stylesheet">
+{% block title %}
+{% endblock %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="pl-5 pr-5">
+        <br>
+        <h1 class="text-center">BRANCHES</h1>
+        <form action="{{url_for('admin_branch_edit')}}" method="GET"><button type="submit" name="branch_add" value="branch_add" class="btn btn-dark mb-2 btn-lg" style="position: relative; left: 85%;">ADD NEW BRANCH</button></form>
+        <br>
+        <table class="table table-dark  text-center">
+            <thead>
+              <tr>
+                <th scope="col">Branch Name</th>
+                <th scope="col">Area Codes</th>
+                <th scope="col">Address</th>
+                <th scope="col">Manager Name</th>
+                <th scope="col">Manager Ph</th>
+                <th scope="col">Options</th>
+              </tr>
+            </thead>
+            <tbody>  
+              <tr>
+                <th scope="row">Delhi</th>
+                <td style="width: 18vw;">
+                    <table class="text-center ml-5">
+                        <tr>
+                            <td>Vasant Kunj</td>
+                        </tr>
+                        <tr>
+                            <td>Chandni Chowk</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hauz khas Village
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>HEllo</td>
+                <td>Hello</td>
+                <td>Hello</td>
+                <td><form action="{{url_for('admin_branch_edit')}}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="give branch id" value="give branch id here">DELETE</button></form></td>
+              </tr>
+              <tr>
+                <th scope="row">Delhi</th>
+                <td style="width: 18vw;">
+                    <table class="text-center ml-5">
+                        <tr>
+                            <td>Vasant Kunj</td>
+                        </tr>
+                        <tr>
+                            <td>Chandni Chowk</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Hauz khas Village
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>HEllo</td>
+                <td>Hello</td>
+                <td>Hello</td>
+                <td><form action="{{url_for('admin_branch_edit')}}" method="POST"><button type="submit"  class="btn btn-outline-light"  name="give branch id here" value="give branch id here">DELETE</button></form></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>    
+
+{%  endblock %}
