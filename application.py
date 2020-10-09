@@ -56,7 +56,7 @@ def login():
         return redirect("/cust", code=307)
     
 
-@app.route("/register", methods=["POST"])
+@app.route("/register", methods=["GET","POST"])
 def register():
     return render_template("register.html")
 
@@ -79,13 +79,21 @@ def register1():
 
 @app.route("/admin/menu", methods=["POST"])
 def admin_menu():
-    return render_template("admin.html")
+    return render_template("admin_menu.html",menus=menus)
 
-@app.route("/admin/branch", methods=["POST"])
+@app.route("/admin/menu/edit", methods=["GET","POST"])
+def admin_menu_edit():
+    if request.method == "POST":
+        # take item id and process the query for deletion 
+        return render_template("admin_menu.html",menus=menus)
+    else: 
+        return render_template("admin_menu_additem.html")
+
+@app.route("/admin/branch", methods=["GET","POST"])
 def admin_branch():
     return render_template("admin.html")
 
-@app.route("/admin/order", methods=["POST"])
+@app.route("/admin/order", methods=["GET","POST"])
 def admin_order():
     return render_template("admin.html")
 
