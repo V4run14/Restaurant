@@ -45,7 +45,7 @@ def login():
     y = re.search("@delivery.com" , email)
     if email == "admin@admin.com":
         if pwd == admin_pwd:
-            return redirect("/admin", code=307)
+            return redirect("/admin/menu", code=307)
         else:
             return redirect("/")
     elif x:
@@ -77,8 +77,16 @@ def register1():
     else:
         return redirect("/register", code=307)
 
-@app.route("/admin", methods=["GET","POST"])
-def admin():
+@app.route("/admin/menu", methods=["POST"])
+def admin_menu():
+    return render_template("admin.html")
+
+@app.route("/admin/branch", methods=["POST"])
+def admin_branch():
+    return render_template("admin.html")
+
+@app.route("/admin/order", methods=["POST"])
+def admin_order():
     return render_template("admin.html")
 
 @app.route("/manager", methods=["POST"])
