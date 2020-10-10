@@ -17,7 +17,6 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
-    #return "Login page"
     email = request.form.get("email")
     pwd = request.form.get("pwd")
     x = re.search("@manager.com" , email)
@@ -131,13 +130,15 @@ def admin_branch_edit():
 
 @app.route("/admin/order", methods=["GET","POST"])
 def admin_order():
-    return render_template("admin_order.html")
-
+    orders = db.execute("SELECT * FROM orders").fetchall()
+    items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
+    return render_template("admin_order.html", orders=orders, items=items)
 
 
 @app.route("/manager/<int:manager_id>/profile", methods=["GET","POST"])
 def manager_prof(manager_id):
-    print(manager_id)
+    profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
+        {"manager_id":manager_id}).fetchone()
     return "This is the manager view"
 
 @app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
@@ -148,6 +149,9 @@ def manager_deliv(manager_id):
 @app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
 def manager_order(manager_id):
     print(manager_id)
+    orders = db.execute("SELECT * FROM orders WHERE branch_id= :manager_id",
+        {"manager_id":manager_id}).fetchall()
+    items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return "This is the manager view"
 
 @app.route("/cust", methods=["POST"])
