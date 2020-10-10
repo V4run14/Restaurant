@@ -131,7 +131,7 @@ def admin_branch_edit():
 
 @app.route("/admin/order", methods=["GET","POST"])
 def admin_order():
-    return render_template("admin.html")
+    return render_template("admin_order.html")
 
 
 
