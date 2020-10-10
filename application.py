@@ -161,7 +161,15 @@ def manager_deliv(manager_id):
 
 @app.route("/manager/<int:manager_id>/deliv/edit", methods=["GET","POST"])
 def manager_deliv_edit(manager_id):
-    return render_template("manager_deliv_edit.html")
+    if request.method == "POST":
+        deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
+        {"manager_id": manager_id}).fetchone()
+        # dboy id take and delete
+        return render_template("manager_deliv.html",deliv=deliv)
+    else:
+        deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
+        {"manager_id": manager_id}).fetchone()
+        return render_template("manager_deliv_edit.html",deliv=deliv)
 
 @app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
 def manager_order(manager_id):
