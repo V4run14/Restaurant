@@ -18,7 +18,7 @@
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
       <a href="{{url_for('manager_prof',manager_id=profile.manager_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
-      <a href="/admin/branch" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
+      <a href="{{url_for('manager_deliv',manager_id=profile.manager_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
       <a href="/admin/order" class="w3-bar-item w3-button" onclick="w3_close()">ORDER INFO</a>
     </div>
   
