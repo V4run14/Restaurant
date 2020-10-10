@@ -27,9 +27,11 @@ def login():
         else:
             return redirect("/")
     elif x:
-        managers = db.execute("SELECT manager_id, pwd FROM manager WHERE email=:email",
+        managers = db.execute("SELECT manager_id, pwd FROM manager WHERE email= :email",
             {"email": email}).fetchone()
-        if pwd == managers.pwd:
+        if managers is None:
+            return redirect("/")
+        elif pwd == managers.pwd and managers:
             return redirect(url_for('manager_prof', manager_id=managers.manager_id), code=307)    
         else:
             return redirect("/")
@@ -46,17 +48,14 @@ def register():
 
 @app.route("/register1", methods=["POST"])
 def register1():
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    mob = request.form.get("mob")
-    address = request.form.get("address")
-    ar_cod = request.form.get("area_code")
-    age = request.form.get("age")
-    email = request.form.get("email") 
-    pwd = request.form.get("pwd")
-    cnf = request.form.get("cnf")
+    fname = request.form.get("fname"); lname = request.form.get("lname"); mob = request.form.get("mob")
+    address = request.form.get("address"); ar_cod = request.form.get("area_code"); age = request.form.get("age")
+    email = request.form.get("email"); pwd = request.form.get("pwd"); cnf = request.form.get("cnf")
     if pwd==cnf:
         #commit data into database
+        db.execute("INSERT INTO customer (fname, lname, cust_ph, email, pwd, address, area_code, age) VALUES ( :fname, :lname, :cust_ph, :email, :pwd, :address, :area_code, :age)",
+            {"fname": fname, "lname": lname, "cust_ph": mob, "email": email, "pwd": pwd, "address": address, "area_code": ar_cod, "age": age})
+        db.commit()
         return redirect("/")
     else:
         return redirect("/register", code=307)
@@ -134,17 +133,33 @@ def admin_order():
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return render_template("admin_order.html", orders=orders, items=items)
 
-
 @app.route("/manager/<int:manager_id>/profile", methods=["GET","POST"])
 def manager_prof(manager_id):
+    if request.form.get("age"):
+        manager_name = request.form.get("manager_name"); ph = request.form.get("manager_ph")
+        pwd = request.form.get("pwd"); age = request.form.get("age")
+        db.execute("UPDATE manager SET manager_name= :manager_name, manager_ph= :manager_ph, pwd= :pwd, age= :age WHERE manager_id= :manager_id",
+            {"manager_name": manager_name, "manager_ph": ph, "pwd": pwd, "age": age, "manager_id": manager_id})
+        db.commit()
     profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
         {"manager_id":manager_id}).fetchone()
-    return "This is the manager view"
+    return render_template("manager_prof.html", profile=profile)
+
+@app.route("/manager/<int:manager_id>/profile/edit", methods=["GET","POST"])
+def manager_prof_edit(manager_id):
+    profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
+        {"manager_id":manager_id}).fetchone()
+    return render_template("manager_prof_edit.html", profile=profile)
 
 @app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
 def manager_deliv(manager_id):
-    print(manager_id)
-    return "This is the manager view"
+    deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
+        {"manager_id": manager_id})
+    return render_template("manager_deliv.html", deliv=deliv)
+
+@app.route("/manager/<int:manager_id>/deliv/edit", methods=["GET","POST"])
+def manager_deliv_edit(manager_id):
+    return render_template("manager_deliv_edit.html")
 
 @app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
 def manager_order(manager_id):
