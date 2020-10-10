@@ -9,6 +9,7 @@
 
 {% block body %}
 <div class="text-center container" style="width: 330px;">
+    <form action="{{url_for('manager_prof',manager_id=profile.manager_id)}}" method="POST">
     <br>
         <h1 class="h3 mb-3 font-weight-normal">EDIT PROFILE</h1>
 
@@ -27,7 +28,8 @@
         <label for="pwd" class="sr-only">Pwd</label>
         <input type="text" id="pwd" class="form-control" name="pwd" value={{profile.pwd}} required autofocus />
         <br>
-        <form action="{{url_for('manager_prof',manager_id=profile.manager_id)}}" method="POST"><button type="submit" class="btn btn-dark" name="btnAddMore" value={{profile.manager_id}}>Submit</button></form>    
+        <button type="submit" class="btn btn-dark" name="btnAddMore" >Submit</button>
+    </form>    
         
 
 

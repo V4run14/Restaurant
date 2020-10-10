@@ -143,7 +143,9 @@ def manager_prof(manager_id):
         db.commit()
     profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
         {"manager_id":manager_id}).fetchone()
-    return render_template("manager_profile.html", profile=profile)
+    branch = db.execute("SELECT branch_name FROM branches WHERE branch_id= :manager_id",
+        {"manager_id":manager_id}).fetchone()
+    return render_template("manager_profile.html", profile=profile, branch=branch)
 
 @app.route("/manager/<int:manager_id>/profile/edit", methods=["GET","POST"])
 def manager_prof_edit(manager_id):
@@ -154,7 +156,7 @@ def manager_prof_edit(manager_id):
 @app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
 def manager_deliv(manager_id):
     deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
-        {"manager_id": manager_id})
+        {"manager_id": manager_id}).fetchone()
     return render_template("manager_deliv.html", deliv=deliv)
 
 @app.route("/manager/<int:manager_id>/deliv/edit", methods=["GET","POST"])
@@ -163,11 +165,13 @@ def manager_deliv_edit(manager_id):
 
 @app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
 def manager_order(manager_id):
-    print(manager_id)
     orders = db.execute("SELECT * FROM orders WHERE branch_id= :manager_id",
         {"manager_id":manager_id}).fetchall()
+    ID = db.execute("SELECT branch_id FROM orders WHERE branch_id= :manager_id",
+        {"manager_id":manager_id}).fetchone()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
-    return "This is the manager view"
+    return render_template("manager_order.html", orders=orders, items=items, ID=ID)
+    #{{url_for('manager_prof', manager_id=ID.branch_id)}}
 
 @app.route("/cust", methods=["POST"])
 def cust():
