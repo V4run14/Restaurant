@@ -143,13 +143,13 @@ def manager_prof(manager_id):
         db.commit()
     profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
         {"manager_id":manager_id}).fetchone()
-    return render_template("manager_prof.html", profile=profile)
+    return render_template("manager_profile.html", profile=profile)
 
 @app.route("/manager/<int:manager_id>/profile/edit", methods=["GET","POST"])
 def manager_prof_edit(manager_id):
     profile = db.execute("SELECT * FROM manager WHERE manager_id= :manager_id",
         {"manager_id":manager_id}).fetchone()
-    return render_template("manager_prof_edit.html", profile=profile)
+    return render_template("manager_profile_edit.html", profile=profile)
 
 @app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
 def manager_deliv(manager_id):

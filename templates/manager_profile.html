@@ -1,0 +1,110 @@
+{% extends "manager.html" %}
+
+{% block head %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+{% block title %}
+{% endblock %}
+
+{% endblock %}
+
+{% block body %}
+    
+    <br>
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-4">      
+                </div>
+                <br>
+                <div class="col-md-6">
+                    <div class="profile-img ml-5">
+                        <span class="material-icons text-center" style="font-size: 150px; width: 260px;">account_circle</span>    
+                    </div>
+                    <br>
+                    <div class="text-center" style="width: 10vw;">
+                        <div class="ml-3" style="width: 325px;">
+                            <h6>
+                                {{profile.manager_name}}
+                            </h6>
+                            <h6>
+                                Manager,{{profile.branch_name}}
+                            </h6>
+                        </div>        
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <form action="{{url_for('manager_prof_edit',manager_id=profile.manager_id)}}" method="POST"><input type="submit" class="btn btn-dark" name="btnAddMore" value="Edit Profile"/></form>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4"> </div>
+                <div class="col-md-6">
+                    <div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Manager Id</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.manager_id}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.manager_name}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.email}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Phone</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.manager_ph}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Pwd</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.pwd}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Age</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.age}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Branch Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.branch_name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+{% endblock %}
