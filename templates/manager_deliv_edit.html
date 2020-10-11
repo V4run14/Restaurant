@@ -17,9 +17,9 @@
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
-      <a href="{{url_for('manager_prof',manager_id=deliv.manager_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
-      <a href="{{url_for('manager_deliv',manager_id=deliv.manager_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
-      <a href="{{url_for('manager_order', manager_id=deliv.manager_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">ORDER INFO</a>
+      <a href="{{url_for('manager_prof',manager_id=ID)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
+      <a href="{{url_for('manager_deliv',manager_id=ID)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
+      <a href="{{url_for('manager_order', manager_id=ID)}}" class="w3-bar-item w3-button" onclick="w3_close()">ORDER INFO</a>
     </div>
   
     <div id="main">
@@ -32,10 +32,10 @@
       <div class="text-center container mt-5" style="width: 30vw;">
         <br>
         <h1 class="h3 mb-3 font-weight-normal">ADD DEL BOY</h1>
-        <form action="{{url_for('manager_deliv',manager_id=deliv.manager_id)}}" method="POST">
+        <form action="{{url_for('manager_deliv',manager_id=ID)}}" method="POST">
         
         <label for="manager_id" class="sr-only">Manager ID</label>
-        <input type="text" id="manager_id" class="form-control" name="manager_id" value="{{deliv.manager_id}}" disabled />
+        <input type="text" id="manager_id" class="form-control" name="manager_id" value="{{ ID }}" disabled />
             
         <br>
         <label for="dboy_name" class="sr-only">DBoy Name</label>
@@ -52,10 +52,9 @@
 
         <label for="area_code" class="sr-only">Area Code</label>
         <select class="form-control"   id="area_code" name="area_code">
-          
-          <option value="1">1 : 1</option>
-          <option value="1">2 : 2</option>
-          
+          {% for area in areas %}
+                <option value="{{ area.area_code }}">{{ area.area_code }}</option>
+          {% endfor %}
        </select>
         <!-- <input type="text" id="area_code" class="form-control" name="area_code" placeholder="Area Code" required autofocus /> -->
         <br>

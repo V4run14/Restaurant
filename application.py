@@ -162,21 +162,32 @@ def manager_prof_edit(manager_id):
 
 @app.route("/manager/<int:manager_id>/deliv", methods=["GET","POST"])
 def manager_deliv(manager_id):
+    if request.form.get("dboy_name"):
+        dboy_name = request.form.get("dboy_name"); IDD = manager_id
+        area_code = request.form.get("area_code"); dboy_ph = request.form.get("dboy_ph"); age = request.form.get("age")
+        email = request.form.get("email"); pwd = request.form.get("pwd")
+        db.execute("INSERT INTO delivery (dboy_name, dboy_ph, email, pwd, age, manager_id, area_code) VALUES (:dboy_name, :dboy_ph, :email, :pwd, :age, :manager_id, :area_code)",
+            {"dboy_name": dboy_name, "dboy_ph": dboy_ph, "email": email, "pwd": pwd, "age": age, "manager_id":IDD, "area_code": area_code})
+        db.commit()
     deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
+        {"manager_id": manager_id}).fetchall()
+    ID = db.execute("SELECT manager_id FROM delivery WHERE manager_id= :manager_id",
         {"manager_id": manager_id}).fetchone()
-    return render_template("manager_deliv.html", deliv=deliv)
+    return render_template("manager_deliv.html", deliv=deliv, ID=ID)
 
 @app.route("/manager/<int:manager_id>/deliv/edit", methods=["GET","POST"])
 def manager_deliv_edit(manager_id):
+    ID = manager_id
     if request.method == "POST":
-        deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
-        {"manager_id": manager_id}).fetchone()
-        # dboy id take and delete
-        return render_template("manager_deliv.html",deliv=deliv)
+        dboy_id = request.form.get("dboy_id")
+        db.execute("DELETE FROM delivery WHERE dboy_id = :dboy_id",
+            {"dboy_id": dboy_id})
+        db.commit()
+        return redirect(url_for('manager_deliv', manager_id=ID), code=307)
     else:
-        deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
-        {"manager_id": manager_id}).fetchone()
-        return render_template("manager_deliv_edit.html",deliv=deliv)
+        areas = db.execute("SELECT area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id) WHERE A.branch_id= :ID",
+            {"ID": ID}).fetchall()
+        return render_template("manager_deliv_edit.html",ID=ID, areas=areas)
 
 @app.route("/manager/<int:manager_id>/order", methods=["GET","POST"])
 def manager_order(manager_id):
@@ -186,8 +197,6 @@ def manager_order(manager_id):
         {"manager_id":manager_id}).fetchone()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return render_template("manager_order.html", orders=orders, items=items, ID=ID)
-    #{{url_for('manager_prof', manager_id=ID.branch_id)}}
-
 
 
 @app.route("/dboy/<int:dboy_id>/profile", methods=["GET","POST"])
