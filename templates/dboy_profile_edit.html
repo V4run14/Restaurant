@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+  <html>
+
+  <head>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    
+      
+    <title></title>
+
+    
+  </head>  
+
+  <body>
+
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="{{url_for('dboy_prof', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
+      <a href="{{url_for('dboy_order', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
+
+    </div>
+  
+    <div id="main">
+  
+      <div class="w3-black">
+        <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 42%;">DELIVERY BOY PAGE</span>    
+      </div>
+
+      <div class="text-center container" style="width: 330px;">
+        <form action="{{url_for('dboy_prof',dboy_id=profile.dboy_id)}}" method="POST">
+        <br>
+            <h1 class="h3 mb-3 font-weight-normal">EDIT PROFILE</h1>
+    
+            <label for="dboy_id" class="sr-only">DBoy ID</label>
+            <input type="text" id="dboy_id" class="form-control" name="dboy_id" value={{profile.dboy_id}} disabled/>
+            <br>
+            <label for="dboy_name" class="sr-only">Dboy Name</label>
+            <input type="text" id="dboy_name" class="form-control" name="dboy_name" value={{profile.dboy_name}} required autofocus />
+        
+            <br>
+            <label for="dboy_ph" class="sr-only">DBoy Ph</label>
+            <input type="text" id="dboy_ph" class="form-control" name="dboy_ph" value={{profile.dboy_ph}} required autofocus/>
+            <br>
+            <label for="age" class="sr-only">Age</label>
+            <input type="text" id="add" class="form-control" name="age" value={{profile.age}} required autofocus/>
+    
+            <br>
+    
+            <label for="pwd" class="sr-only">Pwd</label>
+            <input type="text" id="pwd" class="form-control" name="pwd" value={{profile.pwd}} required autofocus />
+            <br>
+            <button type="submit" class="btn btn-dark" name="btnAddMore" >Submit</button>
+        </form>    
+  
+    </div>
+
+  
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'inline-block';
+      document.getElementById("text").style.marginLeft="40%";
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+  </body>  

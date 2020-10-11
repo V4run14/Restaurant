@@ -196,7 +196,7 @@ def dboy_prof(dboy_id):
         dboy_name = request.form.get("dboy_name"); dboy_ph = request.form.get("dboy_ph")
         pwd = request.form.get("pwd"); age = request.form.get("age")
         db.execute("UPDATE delivery SET dboy_name= :dboy_name, dboy_ph= :dboy_ph, pwd= :pwd, age= :age WHERE dboy_id= :dboy_id",
-            {"dboy_name": dboy_name, "dboy_ph": ph, "pwd": pwd, "age": age, "dboy_id": dboy_id})
+            {"dboy_name": dboy_name, "dboy_ph": dboy_ph, "pwd": pwd, "age": age, "dboy_id": dboy_id})
         db.commit()
     profile = db.execute("SELECT * FROM delivery WHERE dboy_id= :dboy_id",
         {"dboy_id":dboy_id}).fetchone()

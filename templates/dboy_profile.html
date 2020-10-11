@@ -1,0 +1,163 @@
+    <!DOCTYPE html>
+  <html>
+
+  <head>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+    <title></title>
+
+    
+  </head>  
+
+  <body>
+
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="{{url_for('dboy_prof', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
+      <a href="{{url_for('dboy_order', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">ORDER INFO</a>
+      
+    </div>
+  
+    <div id="main">
+  
+      <div class="w3-black">
+        <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 42%;">DELIVERY BOY PAGE</span>    
+      </div>
+
+      <br>
+    <div class="container emp-profile">
+        <div class="row">
+            <div class="col-md-4">      
+                </div>
+                <br>
+                <div class="col-md-6">
+                    <div class="profile-img ml-5">
+                        <span class="material-icons text-center" style="font-size: 150px; width: 260px;">account_circle</span>    
+                    </div>
+                    <div class="text-center" style="width: 10vw;">
+                        <div class="ml-3" style="width: 325px;">
+                            <h6>
+                                {{profile.dboy_name}}                                
+                            </h6>
+                            <h6>
+                                Delivery Boy,{{branch.branch_name}}
+                            </h6>
+                        </div>        
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <form action="{{url_for('dboy_prof_edit', dboy_id=profile.dboy_id)}}" method="POST"><input type="submit" class="btn btn-dark" name="btnAddMore" value="Edit Profile"/></form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"> </div>
+                <div class="col-md-6">
+                    <div>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>DBoy ID</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.dboy_id}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.dboy_name}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.email}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Phone</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.dboy_ph}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Pwd</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.pwd}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Age</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{profile.age}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Manager Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{manager.manager_name}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Manager Ph</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{manager.manager_ph}}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Branch Name</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{branch.branch_name}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+  
+    </div>
+
+  
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'inline-block';
+      document.getElementById("text").style.marginLeft="40%";
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+  </body>  
