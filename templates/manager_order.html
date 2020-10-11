@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+  <html>
+
+  <head>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    
+      
+    <title></title>
+
+    
+  </head>  
+
+  <body>
+
+    <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+      <button class="w3-bar-item w3-button w3-large"
+      onclick="w3_close()">Close &times;</button>
+      <a href="{{url_for('manager_prof', manager_id=ID.branch_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
+      <a href="{{url_for('manager_deliv', manager_id=ID.branch_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
+      <a href="{{url_for('manager_order', manager_id=ID.branch_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">ORDER INFO</a>
+    </div>
+  
+    <div id="main">
+  
+      <div class="w3-black">
+        <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 42%;">MANAGER PAGE</span>    
+      </div>
+
+      <div class="pl-5 pr-5">
+        <br>
+        <h1 class="text-center">Orders</h1>
+        <br>
+        <table class="table table-dark  text-center">
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col">Items</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+              <th scope="col">Cus ID</th>
+              <th scope="col">Area Code</th>
+              <th scope="col">Address</th>
+              <th scope="col">Branch ID</th>
+              <th scope="col">Del ID</th>
+              <th scope="col">Order Date</th>
+            </tr>
+          </thead>
+          <tbody>  
+              <tr>
+                <th scope="row">order_id</th>
+                  <td style="width: 12vw;">
+                    <table class="text-center ml-4">
+                      <tr>
+                        <td>item_name</td>
+                      </tr>
+                      <tr>
+                        <td>item_name</td>
+                      </tr>
+                      <tr>
+                        <td>item_name</td>
+                      </tr>
+                  </table>
+                </td>
+                <td style="width: 1vw;">
+                 <table class="text-center ml-3">
+                    <tr>
+                      <td>quantity</td>
+                    </tr>
+                    <tr>
+                      <td>quantity</td>
+                    </tr>
+                    <tr>
+                      <td>quantity</td>
+                    </tr>
+                  </table>
+                </td>
+                <td>total</td>
+                <td>cust_id</td>
+                <td>area_code</td>
+                <td style="width: 25vw;">address</td>
+                <td>branch_id</td>
+                <td>dboy_id</td>
+              <td>order_date</td>
+            </tr>        
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  
+    <script>
+    function w3_open() {
+      document.getElementById("main").style.marginLeft = "25%";
+      document.getElementById("mySidebar").style.width = "25%";
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("openNav").style.display = 'inline-block';
+      document.getElementById("text").style.marginLeft="40%";
+    }
+    function w3_close() {
+      document.getElementById("main").style.marginLeft = "0%";
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("openNav").style.display = "inline-block";
+    }
+    </script>
+  </body>  

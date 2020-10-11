@@ -13,8 +13,11 @@
     <br>
         <h1 class="h3 mb-3 font-weight-normal">EDIT PROFILE</h1>
 
-            <label for="manager_name" class="sr-only">Manager Name</label>
-            <input type="text" id="manager_name" class="form-control" name="manager_name" value={{profile.manager_name}} required autofocus />
+        <label for="manager_id" class="sr-only">Manager ID</label>
+        <input type="text" id="manager_id" class="form-control" name="manager_id" value={{profile.manager_id}} disabled/>
+        <br>
+        <label for="manager_name" class="sr-only">Manager Name</label>
+        <input type="text" id="manager_name" class="form-control" name="manager_name" value={{profile.manager_name}} required autofocus />
     
         <br>
         <label for="manager_ph" class="sr-only">Manager Ph</label>
