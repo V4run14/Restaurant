@@ -13,7 +13,8 @@ admin_pwd="team_KV"
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    ad= [1,2]
+    return render_template("index.html", ad=ad)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -45,7 +46,14 @@ def login():
         else:
             return redirect("/")
     else:
-        return redirect("/cust", code=307)
+        cust = db.execute("SELECT cust_id, pwd FROM customer WHERE email= :email",
+            {"email": email}).fetchone()
+        if cust is None:
+            return redirect("/")
+        elif pwd == cust.pwd:
+            return redirect(url_for('cust_prof', cust_id=cust.cust_id), code=307)    
+        else:
+            return redirect("/")
     
 
 @app.route("/register", methods=["GET","POST"])
@@ -59,7 +67,6 @@ def register1():
     address = request.form.get("address"); ar_cod = request.form.get("area_code"); age = request.form.get("age")
     email = request.form.get("email"); pwd = request.form.get("pwd"); cnf = request.form.get("cnf")
     if pwd==cnf:
-        #commit data into database
         db.execute("INSERT INTO customer (fname, lname, cust_ph, email, pwd, address, area_code, age) VALUES ( :fname, :lname, :cust_ph, :email, :pwd, :address, :area_code, :age)",
             {"fname": fname, "lname": lname, "cust_ph": mob, "email": email, "pwd": pwd, "address": address, "area_code": ar_cod, "age": age})
         db.commit()
@@ -232,8 +239,45 @@ def dboy_order(dboy_id):
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return render_template("dboy_order.html", orders=orders, items=items, ID=ID)
 
-# in order tab use {{url_for('dboy_prof', dboy_id=ID.dboy_id)}} and {{url_for('dboy_order', dboy_id=ID.dboy_id)}}
 
-@app.route("/cust", methods=["POST"])
-def cust():
-    return "This is the customer view"
+
+@app.route("/cust/<int:cust_id>/profile", methods=["GET","POST"])
+def cust_prof(cust_id):
+    if request.form.get("age"):
+        fname = request.form.get("fname"); lname = request.form.get("lname"); cust_ph = request.form.get("cust_ph")
+        address = request.form.get("address"); area_code = request.form.get("area_code"); pwd = request.form.get("pwd"); age = request.form.get("age")
+        db.execute("UPDATE customer SET fname= :fname, lname= :lname, cust_ph= :cust_ph, address= :address, area_code= :area_code pwd= :pwd, age= :age WHERE cust_id= :cust_id",
+            {"fname": fname, "lname": lname "cust_ph": cust_ph, "address": address, "area_code": area_code "pwd": pwd, "age": age, "dboy_id": dboy_id})
+        db.commit()
+    profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
+        {"cust_id":cust_id}).fetchone()
+    return render_template("cust_profile.html", profile=profile)
+
+@app.route("/cust/<int:cust_id>/profile/edit", methods=["GET","POST"])
+def cust_prof_edit(cust_id):
+    profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
+        {"cust_id":cust_id}).fetchone()
+    return render_template("cust_profile_edit.html", profile=profile)
+
+@app.route("/cust/<int:cust_id>/place_order", methods=["GET","POST"])
+def cust_place_order(cust_id):
+    ID = cust_id
+    menus = db.execute("SELECT * FROM menu").fetchall()
+    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id)").fetchall()
+    profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
+        {"cust_id":cust_id}).fetchone()
+    # display menu items with buttons to inc and dec qty and input fields for address and drop down of area code with default values
+    # for quantity input, let name be item_id variable and value be the quantity
+    # route place order button to order history
+    return render_template("cust_place_order.html",menus=menus, ID=ID, areas=areas, profile=profile)
+
+
+@app.route("/cust/<int:cust_id>/order", methods=["GET","POST"])
+def cust_order(cust_id):
+    ID = cust_id
+    orders = db.execute("SELECT * FROM orders WHERE cust_id= :cust_id",
+        {"cust_id":cust_id}).fetchall()
+    #ID = db.execute("SELECT cust_id FROM orders WHERE cust_id= :cust_id",
+        #{"cust_id":cust_id}).fetchone()
+    items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
+    return render_template("dboy_order.html", orders=orders, items=items, ID=ID)
