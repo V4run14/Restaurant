@@ -31,12 +31,19 @@ def login():
             {"email": email}).fetchone()
         if managers is None:
             return redirect("/")
-        elif pwd == managers.pwd and managers:
+        elif pwd == managers.pwd:
             return redirect(url_for('manager_prof', manager_id=managers.manager_id), code=307)    
         else:
             return redirect("/")
     elif y:
-        return redirect("/delivery", code=307)
+        dboys = db.execute("SELECT dboy_id, pwd FROM delivery WHERE email= :email",
+            {"email": email}).fetchone()
+        if dboys is None:
+            return redirect("/")
+        elif pwd == dboys.pwd:
+            return redirect(url_for('dboy_prof', dboy_id=dboys.dboy_id), code=307)    
+        else:
+            return redirect("/")
     else:
         return redirect("/cust", code=307)
     
@@ -181,10 +188,43 @@ def manager_order(manager_id):
     return render_template("manager_order.html", orders=orders, items=items, ID=ID)
     #{{url_for('manager_prof', manager_id=ID.branch_id)}}
 
+
+
+@app.route("/dboy/<int:dboy_id>/profile", methods=["GET","POST"])
+def dboy_prof(dboy_id):
+    if request.form.get("age"):
+        dboy_name = request.form.get("dboy_name"); dboy_ph = request.form.get("dboy_ph")
+        pwd = request.form.get("pwd"); age = request.form.get("age")
+        db.execute("UPDATE delivery SET dboy_name= :dboy_name, dboy_ph= :dboy_ph, pwd= :pwd, age= :age WHERE dboy_id= :dboy_id",
+            {"dboy_name": dboy_name, "dboy_ph": ph, "pwd": pwd, "age": age, "dboy_id": dboy_id})
+        db.commit()
+    profile = db.execute("SELECT * FROM delivery WHERE dboy_id= :dboy_id",
+        {"dboy_id":dboy_id}).fetchone()
+    manager = db.execute("SELECT manager_id, manager_name, manager_ph FROM manager WHERE manager_id= :manager_id",
+        {"manager_id":profile.manager_id}).fetchone()
+    branch = db.execute("SELECT branch_name FROM branches WHERE branch_id= :manager_id",
+        {"manager_id":profile.manager_id}).fetchone()
+    return render_template("dboy_profile.html", profile=profile, manager=manager, branch=branch)
+
+# in profile tab use {{url_for('dboy_prof', dboy_id=profile.dboy_id)}} and {{url_for('dboy_order', dboy_id=profile.dboy_id)}}
+
+@app.route("/dboy/<int:dboy_id>/profile/edit", methods=["GET","POST"])
+def dboy_prof_edit(dboy_id):
+    profile = db.execute("SELECT * FROM delivery WHERE dboy_id= :dboy_id",
+        {"dboy_id":dboy_id}).fetchone()
+    return render_template("dboy_profile_edit.html", profile=profile)
+
+@app.route("/dboy/<int:dboy_id>/order", methods=["GET","POST"])
+def dboy_order(dboy_id):
+    orders = db.execute("SELECT * FROM orders WHERE dboy_id= :dboy_id",
+        {"dboy_id":dboy_id}).fetchall()
+    ID = db.execute("SELECT dboy_id FROM orders WHERE dboy_id= :dboy_id",
+        {"dboy_id":dboy_id}).fetchone()
+    items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
+    return render_template("dboy_order.html", orders=orders, items=items, ID=ID)
+
+# in order tab use {{url_for('dboy_prof', dboy_id=ID.dboy_id)}} and {{url_for('dboy_order', dboy_id=ID.dboy_id)}}
+
 @app.route("/cust", methods=["POST"])
 def cust():
     return "This is the customer view"
-
-@app.route("/delivery", methods=["POST"])
-def delivery():
-    return "This is the delivery boy view"
