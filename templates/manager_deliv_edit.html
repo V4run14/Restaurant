@@ -31,7 +31,7 @@
     
       <div class="text-center container mt-5" style="width: 30vw;">
         <br>
-        <h1 class="h3 mb-3 font-weight-normal">EDIT PROFILE</h1>
+        <h1 class="h3 mb-3 font-weight-normal">ADD DEL BOY</h1>
         <form action="{{url_for('manager_deliv',manager_id=deliv.manager_id)}}" method="POST">
         
         <label for="manager_id" class="sr-only">Manager ID</label>
@@ -51,7 +51,13 @@
         <br>
 
         <label for="area_code" class="sr-only">Area Code</label>
-        <input type="text" id="area_code" class="form-control" name="area_code" placeholder="Area Code" required autofocus />
+        <select class="form-control"   id="area_code" name="area_code">
+          
+          <option value="1">1 : 1</option>
+          <option value="1">2 : 2</option>
+          
+       </select>
+        <!-- <input type="text" id="area_code" class="form-control" name="area_code" placeholder="Area Code" required autofocus /> -->
         <br>
 
         <label for="email" class="sr-only">Email</label>
