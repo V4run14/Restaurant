@@ -250,14 +250,14 @@ def cust_prof(cust_id):
         db.commit()
     profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
         {"cust_id":cust_id}).fetchone()
-    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id)").fetchall()
-    return render_template("cust_profile.html", profile=profile, areas=areas)
+    return render_template("cust_profile.html", profile=profile)
 
 @app.route("/cust/<int:cust_id>/profile/edit", methods=["GET","POST"])
 def cust_prof_edit(cust_id):
     profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
         {"cust_id":cust_id}).fetchone()
-    return render_template("cust_profile_edit.html", profile=profile)
+    areas = db.execute("SELECT branch_name, area_code FROM branches B JOIN area_codes A ON (B.branch_id=A.branch_id)").fetchall()
+    return render_template("cust_profile_edit.html", profile=profile, areas=areas)
 
 @app.route("/cust/<int:cust_id>/place_order", methods=["GET","POST"])
 def cust_place_order(cust_id):

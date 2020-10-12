@@ -60,7 +60,11 @@
               <label for="areaCode" class="sr-only">Address</label>
               <select class="form-control" style="height: 47px;" id="area_code" name="area_code">
                   {% for area in areas %}
+                      {% if area.area_code==profile.area_code %}
+                      <option selected value="{{ area.area_code }}">{{ area.branch_name }} : {{ area.area_code }}</option>
+                      {% else %}
                       <option value="{{ area.area_code }}">{{ area.branch_name }} : {{ area.area_code }}</option>
+                      {% endif %}
                   {% endfor %}
                </select>
               </div>
