@@ -39,11 +39,11 @@
             <input type="text" id="cust_id" class="form-control" name="cust_id" value={{profile.cust_id}} disabled/>
             <br>
             <label for="cust_name" class="sr-only">Cust FName</label>
-            <input type="text" id="cust_name" class="form-control" name="Cust_name" value={{profile.fname}} required autofocus />
+            <input type="text" id="cust_name" class="form-control" name="fname" value={{profile.fname}} required autofocus />
             
             <br>
             <label for="cust_name" class="sr-only">Cust LName</label>
-            <input type="text" id="cust_name" class="form-control" name="cust_name" value={{profile.lname}} required autofocus />
+            <input type="text" id="cust_name" class="form-control" name="lname" value={{profile.lname}} required autofocus />
 
             <br>
             <label for="cust_ph" class="sr-only">Cust Ph</label>
@@ -52,6 +52,18 @@
             <label for="age" class="sr-only">Age</label>
             <input type="text" id="age" class="form-control" name="age" value={{profile.age}} required autofocus/>
     
+            <br>
+            <label for="age" class="sr-only">Address</label>
+            <input type="text" id="age" class="form-control" name="address" value={{profile.address}} required autofocus/>
+            <br>
+            <div class="form-group">
+              <label for="areaCode" class="sr-only">Address</label>
+              <select class="form-control" style="height: 47px;" id="area_code" name="area_code">
+                  {% for area in areas %}
+                      <option value="{{ area.area_code }}">{{ area.branch_name }} : {{ area.area_code }}</option>
+                  {% endfor %}
+               </select>
+              </div>
             <br>
     
             <label for="pwd" class="sr-only">Pwd</label>
