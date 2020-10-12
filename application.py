@@ -13,8 +13,8 @@ admin_pwd="team_KV"
 
 @app.route("/")
 def index():
-    ad= [1,2]
-    return render_template("index.html", ad=ad)
+    
+    return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -246,8 +246,8 @@ def cust_prof(cust_id):
     if request.form.get("age"):
         fname = request.form.get("fname"); lname = request.form.get("lname"); cust_ph = request.form.get("cust_ph")
         address = request.form.get("address"); area_code = request.form.get("area_code"); pwd = request.form.get("pwd"); age = request.form.get("age")
-        db.execute("UPDATE customer SET fname= :fname, lname= :lname, cust_ph= :cust_ph, address= :address, area_code= :area_code pwd= :pwd, age= :age WHERE cust_id= :cust_id",
-            {"fname": fname, "lname": lname "cust_ph": cust_ph, "address": address, "area_code": area_code "pwd": pwd, "age": age, "dboy_id": dboy_id})
+        db.execute("UPDATE customer SET fname= :fname, lname= :lname, cust_ph= :cust_ph, address= :address, area_code= :area_code, pwd= :pwd, age= :age WHERE cust_id= :cust_id" ,
+            {"fname": fname, "lname": lname, "cust_ph": cust_ph, "address": address, "area_code": area_code, "pwd": pwd, "age": age, "cust_id": cust_id})
         db.commit()
     profile = db.execute("SELECT * FROM customer WHERE cust_id= :cust_id",
         {"cust_id":cust_id}).fetchone()
@@ -280,4 +280,4 @@ def cust_order(cust_id):
     #ID = db.execute("SELECT cust_id FROM orders WHERE cust_id= :cust_id",
         #{"cust_id":cust_id}).fetchone()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
-    return render_template("dboy_order.html", orders=orders, items=items, ID=ID)
+    return render_template("cust_order.html", orders=orders, items=items, ID=ID)

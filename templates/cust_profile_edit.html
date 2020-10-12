@@ -17,32 +17,37 @@
     <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
       <button class="w3-bar-item w3-button w3-large"
       onclick="w3_close()">Close &times;</button>
-      <a href="{{url_for('dboy_prof', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
-      <a href="{{url_for('dboy_order', dboy_id=profile.dboy_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
-
+      <a href="{{url_for('cust_prof', cust_id=profile.cust_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">MY PROFILE</a>
+      <a href="{{url_for('cust_place_order', cust_id=profile.cust_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">DEL BOY INFO</a>
+      <a href="{{url_for('cust_order', cust_id=profile.cust_id)}}" class="w3-bar-item w3-button" onclick="w3_close()">ORDER HISTORY</a>
+  
     </div>
   
     <div id="main">
   
       <div class="w3-black">
         <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
-        <span id="text" style="margin-left: 42%;">DELIVERY BOY PAGE</span>    
+        <span id="text" style="margin-left: 42%;">CUSTOMER PAGE</span>    
       </div>
 
       <div class="text-center container" style="width: 330px;">
-        <form action="{{url_for('dboy_prof',dboy_id=profile.dboy_id)}}" method="POST">
+        <form action="{{url_for('cust_prof', cust_id=profile.cust_id)}}" method="POST">
         <br>
             <h1 class="h3 mb-3 font-weight-normal">EDIT PROFILE</h1>
     
-            <label for="dboy_id" class="sr-only">DBoy ID</label>
-            <input type="text" id="dboy_id" class="form-control" name="dboy_id" value={{profile.dboy_id}} disabled/>
+            <label for="cust_id" class="sr-only">Cust ID</label>
+            <input type="text" id="cust_id" class="form-control" name="cust_id" value={{profile.cust_id}} disabled/>
             <br>
-            <label for="dboy_name" class="sr-only">Dboy Name</label>
-            <input type="text" id="dboy_name" class="form-control" name="dboy_name" value={{profile.dboy_name}} required autofocus />
-        
+            <label for="cust_name" class="sr-only">Cust FName</label>
+            <input type="text" id="cust_name" class="form-control" name="Cust_name" value={{profile.fname}} required autofocus />
+            
             <br>
-            <label for="dboy_ph" class="sr-only">DBoy Ph</label>
-            <input type="text" id="dboy_ph" class="form-control" name="dboy_ph" value={{profile.dboy_ph}} required autofocus/>
+            <label for="cust_name" class="sr-only">Cust LName</label>
+            <input type="text" id="cust_name" class="form-control" name="cust_name" value={{profile.lname}} required autofocus />
+
+            <br>
+            <label for="cust_ph" class="sr-only">Cust Ph</label>
+            <input type="text" id="cust_ph" class="form-control" name="cust_ph" value={{profile.cust_ph}} required autofocus/>
             <br>
             <label for="age" class="sr-only">Age</label>
             <input type="text" id="age" class="form-control" name="age" value={{profile.age}} required autofocus/>
