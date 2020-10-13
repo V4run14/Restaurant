@@ -178,7 +178,7 @@ def manager_deliv(manager_id):
         db.commit()
     deliv = db.execute("SELECT * FROM delivery WHERE manager_id= :manager_id",
         {"manager_id": manager_id}).fetchall()
-    ID = db.execute("SELECT manager_id FROM delivery WHERE manager_id= :manager_id",
+    ID = db.execute("SELECT manager_id FROM manager WHERE manager_id= :manager_id",
         {"manager_id": manager_id}).fetchone()
     return render_template("manager_deliv.html", deliv=deliv, ID=ID)
 
@@ -200,7 +200,7 @@ def manager_deliv_edit(manager_id):
 def manager_order(manager_id):
     orders = db.execute("SELECT * FROM orders WHERE branch_id= :manager_id",
         {"manager_id":manager_id}).fetchall()
-    ID = db.execute("SELECT branch_id FROM orders WHERE branch_id= :manager_id",
+    ID = db.execute("SELECT branch_id FROM manager WHERE branch_id= :manager_id",
         {"manager_id":manager_id}).fetchone()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return render_template("manager_order.html", orders=orders, items=items, ID=ID)
@@ -234,7 +234,7 @@ def dboy_prof_edit(dboy_id):
 def dboy_order(dboy_id):
     orders = db.execute("SELECT * FROM orders WHERE dboy_id= :dboy_id",
         {"dboy_id":dboy_id}).fetchall()
-    ID = db.execute("SELECT dboy_id FROM orders WHERE dboy_id= :dboy_id",
+    ID = db.execute("SELECT dboy_id FROM delivery WHERE dboy_id= :dboy_id",
         {"dboy_id":dboy_id}).fetchone()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
     return render_template("dboy_order.html", orders=orders, items=items, ID=ID)
@@ -277,7 +277,6 @@ def cust_place_order(cust_id):
 def cust_order(cust_id):
     ID = cust_id
     if (request.form.get("address")):
-        req = request.form
         area_code = request.form.get("area_code"); address = request.form.get("address")
         menus = db.execute("SELECT * FROM menu").fetchall()
         branch = db.execute("SELECT branch_id FROM area_codes WHERE area_code= :area_code",
@@ -292,7 +291,6 @@ def cust_order(cust_id):
         db.commit()
         orderID = db.execute("SELECT order_id FROM orders WHERE order_id =(SELECT MAX(order_id) FROM orders)").fetchone()
         order_id =orderID.order_id
-        #print(address, area_code, branch_id, dboy_id, today, order_id)
         for menu in menus:
             x = str(menu.item_id)
             qty = int(request.form.get(x))
@@ -303,7 +301,6 @@ def cust_order(cust_id):
                 db.commit()
         db.execute("UPDATE orders SET total= :total WHERE order_id= :order_id", {"total": total, "order_id": order_id})
         db.commit()
-
     orders = db.execute("SELECT order_id, O.area_code, O.address, total, order_date, M.manager_name, M.manager_ph, D.dboy_name, D.dboy_ph FROM orders O, manager M, delivery D WHERE O.branch_id=M.manager_id and O.dboy_id=D.dboy_id and O.cust_id= :cust_id",
         {"cust_id":cust_id}).fetchall()
     items = db.execute("SELECT order_id, B.item_id, item_name, quantity FROM menu A JOIN order_items B ON(A.item_id=B.item_id)").fetchall()
