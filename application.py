@@ -275,7 +275,7 @@ def cust_place_order(cust_id):
 @app.route("/cust/<int:cust_id>/order", methods=["GET","POST"])
 def cust_order(cust_id):
     ID = cust_id
-    orders = db.execute("SELECT * FROM orders WHERE cust_id= :cust_id",
+    orders = db.execute("SELECT order_id, O.area_code, O.address, total, order_date, M.manager_name, M.manager_ph, D.dboy_name, D.dboy_ph FROM orders O, manager M, delivery D WHERE O.branch_id=M.manager_id and O.dboy_id=D.dboy_id and O.cust_id= :cust_id",
         {"cust_id":cust_id}).fetchall()
     #ID = db.execute("SELECT cust_id FROM orders WHERE cust_id= :cust_id",
         #{"cust_id":cust_id}).fetchone()
