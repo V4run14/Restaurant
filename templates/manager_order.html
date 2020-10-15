@@ -24,9 +24,9 @@
   
     <div id="main">
   
-      <div class="w3-black">
-        <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
-        <span id="text" style="margin-left: 42%;">MANAGER PAGE</span>    
+      <div class="w3" style="background-color: #1f3c88;">
+        <button id="openNav" class="w3-button w3-text-white w3-xlarge" style="color: #070d59;" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 42%; color: white; ">MANAGER PAGE</span>    
       </div>
 
       <div class="pl-5 pr-5">
@@ -34,7 +34,7 @@
         <h1 class="text-center">Orders</h1>
         <br>
         <table class="table table-dark  text-center">
-          <thead>
+          <thead  style="background-color: #ee6f57;">
             <tr>
               <th scope="col">Order ID</th>
               <th scope="col">Items</th>
@@ -48,7 +48,7 @@
               <th scope="col">Order Date</th>
             </tr>
           </thead>
-          <tbody>  
+          <tbody style="background-color: #070d59;">  
             {% for order in orders %}
               <tr>
                 <th scope="row">{{ order.order_id }}</th>

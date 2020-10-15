@@ -29,9 +29,9 @@
   
     <div id="main">
   
-      <div class="w3-black">
-        <button id="openNav" class="w3-button w3-black w3-xlarge" onclick="w3_open()">&#9776;</button>
-        <span id="text" style="margin-left: 42%;">DELIVERY BOY PAGE</span>    
+      <div class="w3" style="background-color: #006a71;">
+        <button id="openNav" class="w3-button w3-text-white w3-xlarge" onclick="w3_open()">&#9776;</button>
+        <span id="text" style="margin-left: 42%; color: white;">DELIVERY BOY PAGE</span>    
       </div>
 
       <br>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <form action="{{url_for('dboy_prof_edit', dboy_id=profile.dboy_id)}}" method="POST"><input type="submit" class="btn btn-dark" name="btnAddMore" value="Edit Profile"/></form>
+                    <form action="{{url_for('dboy_prof_edit', dboy_id=profile.dboy_id)}}" method="POST"><input type="submit" class="btn btn-dark" style="background-color: #006a71;" name="btnAddMore" value="Edit Profile"/></form>
                 </div>
             </div>
             <div class="row">
